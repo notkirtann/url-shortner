@@ -1,9 +1,9 @@
 import type { Request,Response } from "express";
-import {db} from '../db/index'
+import {db} from '../db/index.ts'
 import {userTable} from '../models/index.ts'
-import { eq } from "drizzle-orm";
-import { createHmac, randomBytes } from "node:crypto";
-import { signupPostReqBodySchema } from "../validation/request.validation";
+import { signupPostReqBodySchema } from "../validation/request.validation.ts";
+import { hashPasswordWithSalt } from "../utils/hash.ts";
+import { getUserByEmail } from "../services/user.service.ts";
 
 const createUser = async (req:Request,res:Response)=>{
     const validationResult = await signupPostReqBodySchema.safeParseAsync(req.body);
@@ -12,12 +12,11 @@ const createUser = async (req:Request,res:Response)=>{
     
     const {firstName,lastName,email,password} = validationResult.data
 
-    const [existingUser] = await db.select({id:userTable.id}).from(userTable).where(eq(userTable.email,email))
+    const {existingUser} = await getUserByEmail(email); 
 
     if(existingUser) return res.json({error:`User with this email already exist`});
 
-    const salt = randomBytes(256).toString('hex')
-    const hashedPass = createHmac('sha-256',salt).update(password).digest('hex')
+    const {salt,hashedPass} = hashPasswordWithSalt(password)    
 
     const [user] = await db.insert(userTable).values({firstName,lastName,email,password:hashedPass,salt})
                     .returning({id:userTable.id});
