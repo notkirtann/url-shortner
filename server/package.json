@@ -12,18 +12,20 @@
     "build": "npx tsc",
     "doc.up": "docker compose up -d",
     "doc.dwn": "docker compose down",
-    "drz.push": "npx drizzle-kit push",
-    "drz.std": "npx drizzle-kit studio"
+    "drz.push": "drizzle-kit push",
+    "drz.std": "drizzle-kit studio"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/node": "^25.0.10",
     "@types/pg": "^8.16.0",
     "@types/typescript": "^0.4.29",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
   "dependencies": {
     "chalk": "^5.6.2",
+    "crypto": "^1.0.1",
     "dotenv": "^17.2.3",
     "drizzle-kit": "^0.31.8",
     "drizzle-orm": "^0.45.1",
