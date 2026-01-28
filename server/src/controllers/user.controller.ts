@@ -4,7 +4,7 @@ import {userTable} from '../models/index.ts'
 import { signupPostReqBodySchema, loginPostReqBodySchema } from "../validation/request.validation.ts";
 import { hashPasswordWithSalt } from "../utils/hash.ts";
 import { getUserByEmail } from "../services/user.service.ts";
-import jwt from 'jsonwebtoken'
+import { createUserToken } from "../utils/token.ts";
 
 const createUser = async (req:Request,res:Response)=>{
     const validationResult = await signupPostReqBodySchema.safeParseAsync(req.body);
@@ -40,7 +40,7 @@ const login = async (req:Request,res:Response)=>{
 
     if(user.password!==hashedPass) return res.status(400).json({error:'incorrect password'})
 
-    const token = jwt.sign({id:user.id},process.env.JWT_SECRET!)
+    const token = await createUserToken({id:user.id})
 
     return res.json({token})
 }
@@ -48,6 +48,7 @@ const login = async (req:Request,res:Response)=>{
 const updateUser = async (req:Request,res:Response)=>{
 
 }
+
 const deleteUser = async (req:Request,res:Response)=>{
 
 }
