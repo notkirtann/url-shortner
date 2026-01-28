@@ -6,8 +6,11 @@ import { getAllURL,shortURL,orgURL,deleteURL } from "../controllers/url.controll
 const router:Router = express.Router()
 
 router.post('/shorten',ensureAuthenticated,shortURL)
-router.get('/:shortCode',orgURL)
-router.get('/urls',ensureAuthenticated,getAllURL)
-router.delete('/urls/:id',ensureAuthenticated,deleteURL)
+
+router.get('/codes', ensureAuthenticated, orgURL);
+
+router.delete('/:id', ensureAuthenticated, deleteURL);
+
+router.get('/:shortCode', getAllURL);
 
 export default router

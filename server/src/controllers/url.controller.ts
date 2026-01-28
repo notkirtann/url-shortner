@@ -3,6 +3,7 @@ import { shortenPostRequestBodySchema } from '../validation/request.validation.t
 import { urlTable } from '../models/index.ts';
 import { nanoid } from 'nanoid';
 import db from '../db/index.ts';
+import { and, eq } from 'drizzle-orm';
 
 const shortURL =async(req:Request,res:Response)=>{
     const validationResult = await shortenPostRequestBodySchema.safeParseAsync(req.body);
@@ -34,14 +35,37 @@ const shortURL =async(req:Request,res:Response)=>{
     targetURL: result.targetURL,
   });
 }
-const orgURL =async(req:Request,res:Response)=>{
+const orgURL =async(req:Request,res:Response)=> {
+  const codes = await db
+    .select()
+    .from(urlTable)
+    .where(eq(urlTable.userId, req.user.id));
 
+  return res.json({ codes });
 }
-const deleteURL =async(req:Request,res:Response)=>{
 
+const deleteURL =async(req:Request,res:Response)=>{
+  const id = req.params.id;
+  await db
+    .delete(urlTable)
+    .where(and(eq(urlTable.id, id), eq(urlTable.userId, req.user.id)));
+
+  return res.status(200).json({ deleted: true });
 }
 const getAllURL=async(req:Request,res:Response)=>{
+  const code = req.params.shortCode;
+  const [result] = await db
+    .select({
+      targetURL: urlTable.targetURL,
+    })
+    .from(urlTable)
+    .where(eq(urlTable.shortCode, code));
 
+  if (!result) {
+    return res.status(404).json({ error: 'Invalid URL' });
+  }
+
+  return res.redirect(result.targetURL);
 }
 
 export {
