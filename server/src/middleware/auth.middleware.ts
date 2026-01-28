@@ -1,6 +1,12 @@
-import { validateUserToken } from '../utils/token.js';
+import { validateUserToken } from '../utils/token.ts';
 import type {Request,Response,NextFunction} from 'express'
 
+type user={
+  id: string;  
+  email: string; 
+  firstName: string; 
+  lastName?: string
+}
 
 export function authenticationMiddleware(req:Request, res:Response, next:NextFunction) {
   const authHeader = req.headers['authorization'];
@@ -8,15 +14,15 @@ export function authenticationMiddleware(req:Request, res:Response, next:NextFun
   if (!authHeader) return next();
 
   if (!authHeader.startsWith('Bearer'))
-    return res
-      .status(400)
-      .json({ error: 'Authorization header must start with Bearer' });
+    return res.status(400).json({ error: 'Authorization header must start with Bearer' });
 
   const [_, token] = authHeader.split(' ');
 
   const payload = validateUserToken(token);
 
-  req.user = payload;
+  if (!payload) return res.status(401).json({ error: 'Invalid token' });
+  
+  req.user = payload as user
   next();
 }
 
