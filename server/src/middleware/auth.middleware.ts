@@ -1,13 +1,6 @@
 import { validateUserToken } from '../utils/token.ts';
 import type {Request,Response,NextFunction} from 'express'
 
-type user={
-  id: string;  
-  email: string; 
-  firstName: string; 
-  lastName?: string
-}
-
 export function authenticationMiddleware(req:Request, res:Response, next:NextFunction) {
   const authHeader = req.headers['authorization'];
 
@@ -22,7 +15,7 @@ export function authenticationMiddleware(req:Request, res:Response, next:NextFun
 
   if (!payload) return res.status(401).json({ error: 'Invalid token' });
   
-  req.user = payload as user
+  req.user = payload as { id: string; iat?: number };
   next();
 }
 
