@@ -45,7 +45,14 @@ const login = async (req:Request,res:Response)=>{
     return res.json({token})
 }
 
+const updateUser = async (req:Request,res:Response)=>{
+
+}
+const deleteUser = async (req:Request,res:Response)=>{
+
+}
+
 
 export {
-    createUser, login
+    createUser, login, updateUser, deleteUser
 }
