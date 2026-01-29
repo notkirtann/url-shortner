@@ -24,7 +24,6 @@ export const updateUserReqBodySchema = z.object({
   newPassword: z.string().min(6).optional(),
 }).refine(
   (data) => {
-    // If newPassword is provided, currentPassword must also be provided
     if (data.newPassword && !data.currentPassword) {
       return false;
     }

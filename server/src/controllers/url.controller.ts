@@ -49,7 +49,7 @@ const shortURL = async (req: Request, res: Response) => {
     }
 }
 
-const orgURL = async (req: Request, res: Response) => {
+const allURL = async (req: Request, res: Response) => {
     if (!req.user) {
         return res.status(401).json({ error: 'Unauthorized' });
     }
@@ -81,7 +81,7 @@ const deleteURL = async (req: Request, res: Response) => {
     return res.status(200).json({ deleted: true, id: deleted.id });
 }
 
-const getAllURL = async (req: Request, res: Response) => {
+const getURL = async (req: Request, res: Response) => {
     const code = req.params.shortCode;
     const [result] = await db
         .select({
@@ -98,5 +98,5 @@ const getAllURL = async (req: Request, res: Response) => {
 }
 
 export {
-    shortURL, orgURL, deleteURL, getAllURL
+    shortURL, allURL, deleteURL, getURL
 }
