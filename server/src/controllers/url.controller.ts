@@ -83,6 +83,12 @@ const deleteURL = async (req: Request, res: Response) => {
 
 const getURL = async (req: Request, res: Response) => {
     const code = req.params.shortCode;
+    
+    const ignoredPaths = ['favicon.ico', 'robots.txt', 'sitemap.xml'];
+    if (ignoredPaths.includes(code)) {
+        return res.status(404).json({ error: 'Not found' });
+    }
+
     const [result] = await db
         .select({
             targetURL: urlTable.targetURL,
