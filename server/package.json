@@ -10,10 +10,10 @@
     "start": "node ./dist/server.js",
     "dev": "nodemon ./src/server.ts",
     "build": "npx tsc",
-    "doc.up": "docker compose up -d",
-    "doc.dwn": "docker compose down",
-    "drz.push": "drizzle-kit push",
-    "drz.std": "drizzle-kit studio"
+    "docker": "docker compose up -d",
+    "docker-d": "docker compose down",
+    "drizzle-p": "drizzle-kit push",
+    "studio": "drizzle-kit studio"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
