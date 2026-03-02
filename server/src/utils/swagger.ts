@@ -4,9 +4,9 @@ const options: swaggerJsdoc.Options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'URL Shortener API',
+      title: 'Kirtan\'s URL Shortener API',
       version: '1.0.0',
-      description: 'API documentation for the URL Shortener service',
+      description: 'API documentation for the Kirtan\'s URL Shortener service',
     },
     servers: [
       {
@@ -27,18 +27,18 @@ const options: swaggerJsdoc.Options = {
           type: 'object',
           required: ['firstName', 'email', 'password'],
           properties: {
-            firstName: { type: 'string', example: 'John' },
-            lastName: { type: 'string', example: 'Doe' },
-            email: { type: 'string', format: 'email', example: 'john@example.com' },
-            password: { type: 'string', minLength: 6, example: 'secret123' },
+            firstName: { type: 'string', example: 'Cristiano' },
+            lastName: { type: 'string', example: 'Ronaldo' },
+            email: { type: 'string', format: 'email', example: 'cristiano@goat.com' },
+            password: { type: 'string', minLength: 6, example: 'BestInTheWorld' },
           },
         },
         LoginRequest: {
           type: 'object',
           required: ['email', 'password'],
           properties: {
-            email: { type: 'string', format: 'email', example: 'john@example.com' },
-            password: { type: 'string', example: 'secret123' },
+            email: { type: 'string', format: 'email', example: 'cristiano@goat.com' },
+            password: { type: 'string', example: 'BestInTheWorld' },
           },
         },
         ShortenRequest: {
